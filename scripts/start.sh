@@ -12,6 +12,7 @@ start_jupyter() {
     fi
 }
 
+start_jupyter
 
 echo "Start script(s) finished, pod is ready to use."
 
