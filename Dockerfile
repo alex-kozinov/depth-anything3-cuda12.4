@@ -23,20 +23,28 @@ RUN pip install --upgrade pip setuptools wheel
 RUN pip install "torch>=2.3" torchvision --index-url https://download.pytorch.org/whl/cu121
 
 # --------------------------------------------------------
-# 3. Clone Depth-Anything-3 repository
+# 3. Install JupyterLab
+# --------------------------------------------------------
+RUN pip install jupyterlab
+
+# --------------------------------------------------------
+# 4. Clone Depth-Anything-3 repository
 # --------------------------------------------------------
 WORKDIR /workspace
 RUN git clone https://github.com/ByteDance-Seed/Depth-Anything-3.git
 WORKDIR /workspace/Depth-Anything-3
 
 # --------------------------------------------------------
-# 4. Install project dependencies including GS support
+# 5. Install project dependencies including GS support
 # --------------------------------------------------------
 RUN pip install hatchling editables
 RUN pip install --no-build-isolation -e ".[gs]"
 
 # --------------------------------------------------------
-# 5. Default working directory and entrypoint
+# 6. Default working directory and entrypoint
 # --------------------------------------------------------
+# Start Script
+COPY scripts/start.sh /start.sh
+RUN chmod 755 /start.sh
 WORKDIR /workspace
-CMD ["/bin/bash"]
+CMD ["/start.sh"]
